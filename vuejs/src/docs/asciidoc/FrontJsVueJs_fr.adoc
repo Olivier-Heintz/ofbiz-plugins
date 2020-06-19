@@ -1,0 +1,106 @@
+////
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+////
+= FrontJs Portal
+
+Le composant frontJsPortal, inclus dans le plugin du même nom, a pour objectif de fournir un moyen de gérer l'interface utilisateur
+avec une technologie de type FrontJs, c'est à dire VueJs, ou React ou Angular.
+
+Il utilise, d'une part le systéme de portlet / portal de ofbiz, défini en XML, et un applicatif développé en javascript.
+
+Pour l'instant ce composant est à l'état de POC (Proof Of Concept), c'est à dire que c'est un concrétisation de différentes idées
+afin de pouvoir en discuter plus facilement. +
+Il est développé dans un état d'esprit "Agile" c'est à dire que les résultats concrets sont privilégiés en acceptant de générer
+une dette technique.  
+
+La documentation qui suit a pour objectif, 
+
+* d'une part d'expliquer où en est le composant et comment il fonctionne et quels sont les points choisis et ceux laissés de coté
+* d'autre part de préparer la futur documentation en détaillant les éléments à destination des futur utilisateurs
+
+L'objectif majeur d'utiliser un framework javascript pour l'interface utilisateur est d'augmenter le nombre d'élément interactif 
+dans les écrans, même quand les écrans sont construit / paramétré à partir de "module" existant en standard :
+
+* mettre à jours une partie de l'écran en fonction d'une action ou d'une mise à jours de donnée;
+* modification de formulaire en cours de saisi en fonction de la saisi des premmier champ;
+* paramétrage simple d'un écran (page portal) sans avoir à se préoccuper de l'interaction entre portlet. 
+
+
+include::_include/poc-vuejs_fr.adoc[leveloffset=+1]
+
+== UI générique et modulaire
+Afin d'avoir un ERP modulaire et ouvert, il est important que la gestion de l'interface Utilisateur permette, à partir d'un
+ensemble de "module" écran, de gérer de multiple écran pour gérer le même type d'objet métier dans différent type de contexte
+de l'entreprise.
+
+Les chapitres suivants décrivent un POC pour un système de gestion de l'interface utilisateur afin de vérifier qu'il répond à 
+ce besoin de modularité. 
+
+To be able to have a ERP modular and open, it's imprtant that User Interface must allow, using a set of screen "block", to manage
+multiple screen to manage the *same business object* type in *differents business context*.
+
+Chapter following, describes a POC for checking if a User Interface Management system  meets this need for modularity.
+
+include::Ui-POC.adoc[leveloffset=+2]
+ 
+
+== Portlet
+Une portlet est une portion d'écran "autonome" c'est à dire qu'il peut y avoir des actions qui ne concerne que cette portion
+d'écran et qui sont déclanché par des éléments interne à elle.
+
+Les portlets doivent permettre une grand modularité de l'interface utilisateur, aussi une action utilisateur (clic sur un lien,
+un bouton submit, ...) ne doit pas indiquer la portlet qui doit se mettre à jour mais un nom logique auquel pourront s'abonner
+une ou plusieurs portlet.
+
+Ce nom logique auquel la portlet s'abonne est la watcherName, c'est un champ qui est dans la table d'association entre
+PortalPage te PortalPortlet
+
+=== Mise à jour Portlet
+C'est la mise à jours de donnée au niveau du store du client Js qui déclanche la mise à jours de la portlet
+
+
+== Portal Page
+
+== Dev and prod
+
+=== message de retour 
+
+* _EVENT_MESSAGE_LIST_ : pour obtenir un event message list il faut; faire un creatExample ayant comme statusId="EXST_COMPLETE". 
+* _EVENT_MESSAGE_ : pour obtenir un EventMessage il faut; faire un creatExample ayant comme statusId="EXST_APPROVED".
+* _ERROR_MESSAGE_ : pour obtenir un ErrorMessage il faut; que le exampleTypeId et que le description soient null.
+* _ERROR_MESSAGE_LIST_ : pour obtenir un ErrorMessage list il faut; que le exampleTypeId soit null.
+
+== FrontJs Glossary
+
+[#WATCHERS]
+watchers:: c'est nom du store VueJs utilisé pour stocker les différentes variable sur lequel les container ou portletsont abonné
+et donc se mette à jours quand celui-ci change.
+
+[#WATCHERNAME]
+watcherName:: c'est le nom du champ (dans l'association Portlet - PortalPage) qui contient le nom de la variable dans watchers permettant
+de mettre à jours cette portlet dans cette PortalPage (cf <<Portlet, _Portlet_ >>.
+
+[#STORE_ENTITIES]
+Store entities:: c'est le store qui stock l'ensemble des données utilisé sur la page portail, il est organisé par "record" 
+de manière à pourvoir être utilisé aussi bien en tant que ligne de list que en tant que Screen Single.
+
+
+
+
+
+
