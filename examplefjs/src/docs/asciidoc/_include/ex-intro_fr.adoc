@@ -1,0 +1,61 @@
+////
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+////
+
+
+= Objectif du composant Example
+
+A quoi sert le composant exemple? comment l'utiliser ? quel est son objectif? ... cette introduction est là pour répondre à toutes ces questions
+
+L'application exemple vous permet de découvrir les possibilités pour créer ou modifier une application avec le framework  fonctionnel et technique OFBiz.
+Il vous permettra de comprendre comment faire des écrans (ou portlet) avec, entre autres, des boîtes de recherche, des listes et beaucoup d'autres choses.
+
+Cette application peut être utilisée pour avoir un aperçu des bonnes pratiques de développement d'interface utilisateur ou de service métier dans OFBiz.
+Le composant example doit être installé via copie du plugin example qui se trouve dans https://svn.apache.org/repos/asf/ofbiz/ofbiz-plugins/trunk/example
+
+Dans le composant example nous retrouverons les sous-répertoire "classique" : 
+cf <<_components, Introduction / Les composants>>
+
+
+[[_entities_used]]
+== Les entités utilisés
+
+
+image::example_fr/ExampleUml.jpg[Diagramme UML des entités example]
+
+Dans ce composants, 6 entités (ou table de base de donnée) seront utilisées afin de reprendre les bonnes pratiques OFBiz 
+en terme de définition de schéma de base de donnée pour une application.
+
+Vous retrouverez ces cas dans  toutes les application OFBiz. +
+En terme de terminologie on dira que : 
+
+* Example : c'est une entity majeur ou <<OBJET_METIER, objet métier>> ;
+* ExampleType : cette entité permet de typer les exemple, sur le plan fonctionnel un exemple a  obligatoirement un type. 
+   La gestion de cette entité ne se fait que lors du paramétrage;
+* ExampleItem : c'est une entité secondaire ou entité lié (à un objet métier). 
+    C'est une composition (au sens UML) de Example, c'est à dire qu'un exampleItem ne peut exister que s'il est associé a un example,
+    comme les lignes de commande ou les ligne de devis , ou ...;
+* ExampleStatus : contient l'historique des changements de statut des enregistrements example. 
+    La liste des statuts possible pour Exemple est stocké dans l'entité StatusItem, cette entité contient un champ statusTypeId 
+    qui aura une valeur spécifique "EXAMPLE_STATUS" pour tous les status possible pour Example.
+* ExampleFeature : caractéristique d'exemple, c'est une entité secondaire ou entité lié (à un objet métier), 
+    mais contrairement à ExampleItem c'est une entité associé (au sens UML) et non une composition. 
+    C'est à dire qu'il est possible de gérer les caractéristiques indépendamment des examples existant, 
+    puis  d'associer à un example un ensemble de caractéristique, ou alors pour une caractéristique de trouver tous les examples qui lui sont associés;
+* ExampleFeatureAppli : cette entité permet de faire l'association entre un example et un  exampleFeature, 
+    elle contient un champ "de la date" et "à la date" (fromDate et thruDate) qui correspondent au temps de validité de l'association.
